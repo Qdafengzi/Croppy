@@ -86,7 +86,7 @@ class MainActivity : AppCompatActivity() {
             sourceUri = uri,
             destinationUri = destinationUri,
             requestCode = RC_CROP_IMAGE,
-            croppyTheme = CroppyTheme(R.color.blue)
+            croppyTheme = CroppyTheme(R.color.colorAccent)
         )
 
         Croppy.start(this, themeCropRequest)
