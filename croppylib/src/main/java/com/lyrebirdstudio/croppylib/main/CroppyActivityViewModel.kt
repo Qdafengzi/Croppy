@@ -7,6 +7,7 @@ import androidx.core.net.toUri
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import com.lyrebirdstudio.croppylib.XLogger
 import com.lyrebirdstudio.croppylib.ui.CroppedBitmapData
 import com.lyrebirdstudio.croppylib.util.bitmap.BitmapUtils
 import com.lyrebirdstudio.croppylib.util.file.FileCreator
@@ -28,14 +29,20 @@ class CroppyActivityViewModel(val app: Application) : AndroidViewModel(app) {
 
         when (cropRequest) {
             is CropRequest.Manual -> {
+                XLogger.d("==========>Manual:${cropRequest.destinationUri}")
+
                 disposable.add(
                     BitmapUtils
                     .saveBitmap(croppedBitmapData, cropRequest.destinationUri.toFile())
                     .subscribeOn(Schedulers.io())
                     .observeOn(AndroidSchedulers.mainThread())
-                    .subscribe { saveBitmapLiveData.value = cropRequest.destinationUri })
+                    .subscribe {
+                        saveBitmapLiveData.value = cropRequest.destinationUri
+                    })
             }
             is CropRequest.Auto -> {
+                XLogger.d("==========>Auto")
+
                 val destinationUri = FileCreator.createFile(
                     FileOperationRequest(
                         cropRequest.storageType,

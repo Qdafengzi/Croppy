@@ -9,6 +9,7 @@ import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import com.lyrebirdstudio.croppylib.R
+import com.lyrebirdstudio.croppylib.XLogger
 import com.lyrebirdstudio.croppylib.databinding.ActivityCroppyBinding
 import com.lyrebirdstudio.croppylib.ui.ImageCropFragment
 
@@ -22,7 +23,7 @@ class CroppyActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = DataBindingUtil.setContentView(this, R.layout.activity_croppy)
 
-        viewModel = ViewModelProviders.of(this).get(CroppyActivityViewModel::class.java)
+        viewModel = ViewModelProviders.of(this)[CroppyActivityViewModel::class.java]
 
         val cropRequest = intent.getParcelableExtra(KEY_CROP_REQUEST) ?: CropRequest.empty()
 
@@ -45,7 +46,10 @@ class CroppyActivity : AppCompatActivity() {
 
 
         viewModel.getSaveBitmapLiveData().observe(this, Observer {
-            setResult(Activity.RESULT_OK, Intent().apply { data = it })
+            setResult(Activity.RESULT_OK, Intent().apply {
+                XLogger.d("==========>getSaveBitmapLiveData :$it")
+                data = it
+            })
             finish()
         })
     }

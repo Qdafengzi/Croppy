@@ -1,5 +1,6 @@
 package com.lyrebirdstudio.croppylib.ui
 
+import android.os.Build.VERSION_CODES.P
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -9,6 +10,7 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import com.lyrebirdstudio.croppylib.main.CropRequest
 import com.lyrebirdstudio.croppylib.R
+import com.lyrebirdstudio.croppylib.XLogger
 import com.lyrebirdstudio.croppylib.databinding.FragmentImageCropBinding
 import com.lyrebirdstudio.croppylib.util.delegate.inflate
 import com.lyrebirdstudio.croppylib.state.CropFragmentViewState
@@ -25,7 +27,7 @@ class ImageCropFragment : Fragment() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        viewModel = ViewModelProviders.of(this).get(ImageCropViewModel::class.java)
+        viewModel = ViewModelProviders.of(this)[ImageCropViewModel::class.java]
 
         val cropRequest = arguments?.getParcelable(KEY_BUNDLE_CROP_REQUEST) ?: CropRequest.empty()
         viewModel.setCropRequest(cropRequest)
@@ -56,9 +58,17 @@ class ImageCropFragment : Fragment() {
             onApplyClicked?.invoke(binding.cropView.getCroppedData())
         }
 
-        with(binding.cropView) {
+//        binding.cropView.observeCropRectOnOriginalBitmapChanged= {
+//            viewModel.updateCropSize(binding.cropView.getCropSizeOriginal())
+//        }
+//
+//        binding.cropView.onInitialized= {
+//            viewModel.updateCropSize(binding.cropView.getCropSizeOriginal())
+//        }
 
+        with(binding.cropView) {
             onInitialized = {
+                XLogger.d("==========?onInitialized")
                 viewModel.updateCropSize(binding.cropView.getCropSizeOriginal())
             }
 

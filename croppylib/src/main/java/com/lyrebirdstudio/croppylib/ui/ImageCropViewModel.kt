@@ -5,7 +5,9 @@ import android.graphics.RectF
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.ViewModel
 import com.lyrebirdstudio.aspectratiorecyclerviewlib.aspectratio.model.AspectRatio
+import com.lyrebirdstudio.croppylib.XLogger
 import com.lyrebirdstudio.croppylib.main.CropRequest
 import com.lyrebirdstudio.croppylib.state.CropFragmentViewState
 import com.lyrebirdstudio.croppylib.util.bitmap.BitmapUtils
@@ -50,6 +52,7 @@ class ImageCropViewModel(val app: Application) : AndroidViewModel(app) {
     fun getResizedBitmapLiveData(): LiveData<ResizedBitmap> = resizedBitmapLiveData
 
     fun updateCropSize(cropRect: RectF) {
+        XLogger.d("updateCropSize=============>${cropRect.height()}  ${cropRect.width()}")
         cropViewStateLiveData.value =
             cropViewStateLiveData.value?.onCropSizeChanged(cropRect = cropRect)
     }

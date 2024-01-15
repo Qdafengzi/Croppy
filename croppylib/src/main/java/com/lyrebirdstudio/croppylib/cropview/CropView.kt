@@ -19,6 +19,7 @@ import androidx.core.content.ContextCompat
 import com.lyrebirdstudio.aspectratiorecyclerviewlib.aspectratio.model.AspectRatio.*
 import com.lyrebirdstudio.croppylib.ui.CroppedBitmapData
 import com.lyrebirdstudio.croppylib.R
+import com.lyrebirdstudio.croppylib.XLogger
 import com.lyrebirdstudio.croppylib.main.CroppyTheme
 import com.lyrebirdstudio.croppylib.util.extensions.*
 import com.lyrebirdstudio.croppylib.util.model.*
@@ -300,6 +301,7 @@ class CropView @JvmOverloads constructor(
      */
     override fun onSizeChanged(w: Int, h: Int, oldw: Int, oldh: Int) {
         super.onSizeChanged(w, h, oldw, oldh)
+        XLogger.d("onSizeChanged initialize")
         initialize()
     }
 
@@ -391,6 +393,7 @@ class CropView @JvmOverloads constructor(
      * Calculates bitmap rect and bitmap min rect.
      */
     fun setBitmap(bitmap: Bitmap?) {
+        XLogger.d("setBitmap initialize")
         this.bitmap = bitmap
 
         bitmapRect.set(
@@ -419,6 +422,8 @@ class CropView @JvmOverloads constructor(
      */
     fun getCroppedData(): CroppedBitmapData {
         val croppedBitmapRect = getCropSizeOriginal()
+        XLogger.d("croppedBitmapRect:${croppedBitmapRect}")
+        XLogger.d("bitmapRect:${bitmapRect}")
 
         if (bitmapRect.intersect(croppedBitmapRect).not()) {
             return CroppedBitmapData(croppedBitmap = bitmap)
@@ -449,9 +454,12 @@ class CropView @JvmOverloads constructor(
         }
 
         bitmap?.let {
+
             val croppedBitmap = Bitmap.createBitmap(
                 it, cropLeft, cropTop, cropRight - cropLeft, cropBottom - cropTop
             )
+            XLogger.d("W:${bitmap!!.width}  h:${bitmap!!.height}")
+            XLogger.d("W:${croppedBitmap.width}  h:${croppedBitmap.height}")
             return CroppedBitmapData(croppedBitmap = croppedBitmap)
         }
 
@@ -492,6 +500,7 @@ class CropView @JvmOverloads constructor(
      * Initialize
      */
     private fun initialize() {
+        XLogger.d("initialize===================>${measuredWidth.toFloat()}")
 
         viewWidth = measuredWidth.toFloat() - (marginInPixelSize * 2)
 
